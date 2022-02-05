@@ -12,18 +12,18 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.route('/users')
     .get((req, res) => {
-        res.send(data)
+        res.send(data);
     })
     .post((req, res) => {
         console.log('req.body', req.body);
         res.send(req.body);
-        res.send(`post request on /users route on port ${PORT}`)
+        res.send(`post request on /users route on port ${PORT}`);
     })
     .put((req, res) => {
-        res.send(`put request on /users route on port ${PORT}`)
+        res.send(`put request on /users route on port ${PORT}`);
     })
     .delete((req, res) => {
-        res.send(`delete request on /users route on port ${PORT}`)
+        res.send(`delete request on /users route on port ${PORT}`);
     })
 
 app.get('/users/:id', (req, res, next) => {
@@ -36,6 +36,11 @@ app.get('/users/:id', (req, res, next) => {
 }, (req, res) => 
     console.log('Did you get the right data?')
 );
+
+app.use((err, req, res, next) => {
+    console.error(err.message);
+    res.status(500).send(`RED ALERT! RED ALERT: ${err.stack}`)
+})
 
 app.listen(PORT, () => {
     console.log(`server is listening on port ${PORT}`);
