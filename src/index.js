@@ -8,26 +8,30 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.get('/', (req, res) => {
-    res.send(data)
-})
+app.route('/users')
+    .get((req, res) => {
+        res.send(data)
+    })
+    .post((req, res) => {
+        res.send(`post request on /users route on port ${PORT}`)
+    })
+    .put((req, res) => {
+        res.send(`put request on /users route on port ${PORT}`)
+    })
+    .delete((req, res) => {
+        res.send(`delete request on /users route on port ${PORT}`)
+    })
 
-app.get('/:id', (req, res) => {
+app.get('/users/:id', (req, res, next) => {
     const { id } = req.params;
-    res.send(data.find(user => user.id === +id))
-})
+    const user = data.find(user => user.id === +id);
+    console.log(user);
+    res.send(user);
 
-app.post('/post', (req, res) => {
-    res.send(`post request on /post route on port ${PORT}`)
-})
-
-app.put('/put', (req, res) => {
-    res.send(`put request on /put route on port ${PORT}`)
-})
-
-app.delete('/delete', (req, res) => {
-    res.send(`delete request on /delete route on port ${PORT}`)
-})
+    next();
+}, (req, res) => 
+    console.log('Did you get the right data?')
+);
 
 app.listen(PORT, () => {
     console.log(`server is listening on port ${PORT}`);
