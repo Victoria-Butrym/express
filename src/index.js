@@ -12,6 +12,11 @@ app.get('/', (req, res) => {
     res.send(data)
 })
 
+app.get('/:id', (req, res) => {
+    const { id } = req.params;
+    res.send(data.find(user => user.id === +id))
+})
+
 app.post('/post', (req, res) => {
     res.send(`post request on /post route on port ${PORT}`)
 })
